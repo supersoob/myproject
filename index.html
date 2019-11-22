@@ -1,0 +1,65 @@
+
+
+<!doctype html>
+<html>
+<head>
+
+<link rel="stylesheet"  type="text/css" href="style.css">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<title class="font">ETRI SSD 학습기</title>    
+<link rel="stylesheet" type="text/css" href="public/semantic/semantic.css">
+<script src="public/semantic/semantic.js"></script>
+
+
+</head>
+<head>
+<meta charset="utf-8">
+</head>
+<style>
+.ui.container {
+height: 120px;
+overflow-x: hidden;
+text-align: center;
+
+}
+.box {
+height: 120px;
+justify-content: center;
+flex-direction: column;
+text-align: center;
+display: flex;
+align-items: center;
+}
+</style>
+<body>
+<script >
+$(function (){
+  $('#hey').dropdown();
+});
+</script>
+<style> .centered { display: table; margin-left: auto; margin-right: auto; width: 80%;} </style>
+
+<div class="ui centered container" id="dropzone">
+  <div class="ui middle aligned selection list">
+      <div class="item">
+        <div class="ui fluid dropdown" id="hey" >
+          <div class="text">File</div>
+          <i class="dropdown icon"></i>
+          <div class="menu" style="right: 0;left: auto;">
+              <div class="item">Delete</div>
+              <div class="item">Rename</div>
+          </div>
+        </div>
+     </div>
+     <div class="item">
+        <div class="ui fluid dropdown">
+          <div class="text">File</div>
+          <i class="dropdown icon"></i>
+        </div>
+     </div>
+  </div>
+</div>
+</body>
+</html>
