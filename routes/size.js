@@ -83,7 +83,7 @@ router.get('/', function(request, response) {   // get : 라우팅 , path마다 
     `<a href="/" class="item">위치</a>
     <a href="/size" class="active item">크기</a>
     <a href="/user" class="item">사용자파일</a>
-    <a class="item">통합</a>
+    <a href="/united" class="item">통합</a>
     <a class="item">카메라</a>
     `
 

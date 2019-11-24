@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 
 var sizeRouter = require('./routes/size');
 var userRouter = require('./routes/user');
-var whatRouter = require('./routes/whatthe');
+var pythonRouter = require('./routes/python');
+var unitedRouter = require('./routes/united');
 
 var session = require('express-session');
 
@@ -27,7 +28,8 @@ app.use(bodyParser.text());
 
 app.use('/user',userRouter);
 app.use('/size', sizeRouter);
-app.use('/whatthe', whatRouter);
+app.use('/python', pythonRouter);
+app.use('/united', unitedRouter);
 
 
 
@@ -59,7 +61,7 @@ app.get('/', function(request, response) {   // get : 라우팅 , path마다 적
     `<a href="/" class="active item">위치</a>
     <a href="/size" class="item">크기</a>
     <a href="/user" class="item">사용자파일</a>
-    <a class="item">통합</a>
+    <a href="/united" class="item">통합</a>
     <a class="item">카메라</a>
     `
 

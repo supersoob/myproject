@@ -203,7 +203,7 @@ function loadFile(filename){
     
         var soundname = filename.split('.')[0] + '.wav';
         $.ajax({
-            url: 'whatthe',
+            url: 'python',
             method: 'post',
             data: filename,
             async: false,
