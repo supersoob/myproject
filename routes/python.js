@@ -2,6 +2,7 @@ const express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var mysqlDB = require('./mysql-db');
+var fs = require('fs');
 const sync = require('child_process').spawnSync;
 
 //const execSync = require('child_process').execSync;
@@ -36,11 +37,16 @@ router.post('/',async function(req,res){
             //{encoding:'utf8', cwd:'C:/Users/lsbhy/myproject/public/uploads/image/'});
             //var func_exec = await pythonExec(ar);
             //console.log(func_exec);
-            console.log(func_exec);
-            mysqlDB.query(`update ${req.session.userId} set sound=1 where filename ="${ar}"`, function (err, rows, fields) {
-              console.log(`update ${req.session.userId} set sound=1 where filename="${ar}"`);
+            var soundURL = __dirname + "\\..\\public\\uploads\\sound\\" + ar.split(".")[0] + ".wav";
+            console.log(soundURL);
+            fs.stat(soundURL, function(err, stats) {
+              if(!err){
+                mysqlDB.query(`update ${req.session.userId} set sound=1 where filename ="${ar}"`, function (err, rows, fields) {
+                  console.log(`update ${req.session.userId} set sound=1 where filename="${ar}"`);
+                });
+                res.send("python exec is done");
+              }
             });
-            res.send("python exec is done");
         }
         else{
           res.send("already exists");
