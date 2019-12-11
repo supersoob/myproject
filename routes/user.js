@@ -34,7 +34,11 @@ router.post('/upload',upload.array("file"),function(req,res){
 
   var sqlquery2 = 'select * from ' + req.session.userId;
   mysqlDB.query(sqlquery2, function (err, rows, fields) {
-      res.send(rows);
+      var resp = new Object();
+      resp.file = rows;
+      resp.new = post;
+      
+      res.send(resp);
   });
 });
 
@@ -67,8 +71,55 @@ router.post('/delete', function(req, res) {
   });
 });
 
+
+router.post('/test', function(req,res){
+
+  if(req.session.userId){
+  var sqlquery = 'select filename from ' + req.session.userId + ' where sound=1';
+  mysqlDB.query(sqlquery, function (err, rows, fields) {
+
+      var imageData = ``
+      var len = rows.length;
+      var rand = template.random(len);
+      console.log(rand);
+  
+      for(var i=1;i<=4;i++){
+          var parseName = rows[rand[i-1]].filename.split('.')[0];
+          var soundSrc = 'uploads/sound/' + parseName + '.wav';
+      
+          imageData += 
+          `<div class="column">
+          <div class="ui grey card" style="cursor:pointer">
+                  <div class="image">
+                  <img src ="${'uploads/image/' + rows[rand[i-1]].filename}" id="case_image${i}" onclick="matchAnswer(${i})">
+                  <audio id="audio${i}" src="${soundSrc}" ></audio>
+                  </div>
+          </div></div>
+          `
+      }
+    
+      var pick = Math.floor(Math.random()*4);
+      var parseAnswer = rows[rand[pick]].filename;
+      var soundname = 'uploads/sound/' + parseAnswer.split('.')[0] + '.wav';
+      pick = pick + 1;
+    
+      var data = {
+        htmlImage : imageData,
+        imgList : rows,
+        soundURL : soundname,
+        filename : parseAnswer,
+        ans : pick
+      };
+    
+      res.send(data);
+    
+    });
+  }
+});
+
 router.get('/', function(req, res) {   // get : 라우팅 , path마다 적당한 응답 
-      var scriptData = `<script type="text/javascript" src="train_user.js"></script>`
+      var scriptData = `<script type="text/javascript" src="train_user.js"></script>
+      <script type="text/javascript" src="test_user.js"></script>`
 
       //drag & drop
       var uploadFolder = "public/uploads/image/";

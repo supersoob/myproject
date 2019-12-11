@@ -28,7 +28,14 @@ $(document).on("click","#logout",function() {
     }); 
 });
 $(function () {
-    
+    $('.ui.inverted.menu a.item').on('click', function() { 
+        $(this)
+          .addClass('active')
+          .siblings()
+          .removeClass('active'); 
+    })
+    $("#train").attr("href","/user");
+         
     var obj = $("#dropzone");
 
     obj.on('dragenter', function (e) {
@@ -114,29 +121,54 @@ function F_FileMultiUpload(files, obj) {
            processData: false,
            contentType: false,
            success: function(res) {
-
-                console.log("응답신호 : " + res);
-               var figureData = `<div class="ui middle aligned selection list">`;
-                var i = 0;
-                while(i < res.length){
-                    figureData = figureData + 
-                    `
-                    
-                    <div class="item">
-                <div class="ui fluid dropdown">
-                <div class="text"  style="width : 80%" onclick="loadFile('${res[i].filename}')">${res[i].filename}</div>
-                <i class="dropdown icon"></i>
-                <div class="menu" style="right: 0;left: auto;">
-              <div class="item">Delete</div>
-              <div class="item">Rename</div>
-          </div>
-              </div>
-                </div>`;
-                    i = i + 1;
+                fileArray = new Array();
+                for(i=0;i<res.new.length;i++){
+                    fileArray.push(res.new[i].originalname);
                 }
-                figureData +=`</ul>`;
-                document.getElementById("dropzone").innerHTML = figureData;
+                console.log(fileArray);
+                
+                fileOriginArray = new Array();
+                for(i=0;i<res.file.length;i++){
+                    fileOriginArray.push(res.file[i].filename);
+                }
+                
+
+                $.ajax({
+                    url: 'python',
+                    method: 'post',
+                    data: fileArray,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        console.log(res);
+
+                        var figureData = `<div class="ui middle aligned selection list">`;
+                        var i = 0;
+                        while(i < fileOriginArray.length){
+                            figureData = figureData + 
+                            `
+                            
+                            <div class="item">
+                        <div class="ui fluid dropdown">
+                        <div class="text"  style="width : 80%" onclick="loadFile('${fileOriginArray[i]}')">${fileOriginArray[i]}</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu" style="right: 0;left: auto;">
+                    <div class="item">Delete</div>
+                    <div class="item">Rename</div>
+                        </div>
+                    </div>
+                        </div>`;
+                            i = i + 1;
+                        }
+                        figureData +=`</ul>`;
+                        document.getElementById("dropzone").innerHTML = figureData;
+                    }
+                });
+
+                
               // F_FileMultiUpload_Callback(res.files);
+
+
            },
            complete: function() {
                console.log("complete");
@@ -184,38 +216,33 @@ function deleteFile(filename){
              }
              figureData +=`</ul>`;
              document.getElementById("dropzone").innerHTML = figureData;
-     
         }
     });
 
 }
 
-
 function loadFile(filename){
     //학습 이미지 올려놓기
     var imageURL='uploads/image/'+ filename;
     console.log("로딩되는 파일 : ", filename);
-
-    
     $("#main_image").attr("src",imageURL);
-
-    $('#seg_dim').dimmer('show', function(onShow){
-    
-        var soundname = filename.split('.')[0] + '.wav';
-        $.ajax({
-            url: 'python',
-            method: 'post',
-            data: filename,
-            async: false,
-            processData: false,
-            contentType: false,
-            success: function(res) {
-                console.log(res);
-                $('#seg_dim').dimmer('hide');
+    var soundname = filename.split('.')[0] + '.wav';
+    $.ajax({
+        url: 'python/check',
+        method: 'post',
+        data: filename,
+        async: false,
+        processData: false,
+        contentType: false,
+        success: function(res) {
+            console.log(res);
+            if(res=="true"){
                 var soundURL=`uploads/sound/${soundname}`;
                 $("#player").attr("src",soundURL);
             }
+            else{
+                $("#player").attr("src", null);
+            }
+        }
     });
-});
-    
 }

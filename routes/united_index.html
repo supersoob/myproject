@@ -10,7 +10,6 @@
     <title class="font">ETRI SSD 학습기</title>    
     <link rel="stylesheet" type="text/css" href="semantic/semantic.css">
     <script src="semantic/semantic.js"></script>
-    
   
 </head>
 <head>
@@ -34,6 +33,7 @@
 </style>
 <body>
   <script type="text/javascript" src="train_united.js"></script>
+  <script type="text/javascript" src="test_united.js"></script>
     <style> .centered { display: table; margin-left: auto; margin-right: auto; width: 80%;} </style>
     <div class="centered">
     <div class="ui inverted menu"> 
@@ -75,7 +75,7 @@
                                         <input type="hidden" id="hiddencount" name="count" value="0">
                                         </div>
                                         <div class="left aligned five wide column">
-                                                <button class="ui right labeled icon button" id="next_button" disabled='disabled'>
+                                                <button class="ui right labeled icon button" id="next_button" onclick="python()">
                                                         <i class="right arrow icon"></i>
                                                         Next
                                                   </button>

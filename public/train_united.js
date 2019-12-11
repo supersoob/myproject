@@ -1,4 +1,9 @@
 $(function () {
+    python();
+});
+
+
+function python(){
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext("2d");
 
@@ -28,10 +33,30 @@ $(function () {
             var arr1 = position(lot[cnt++]+1, img1.width, img1.height, rand1);
             console.log(rand1, arr1[0], arr1[1]);
             ctx.drawImage(img1, arr1[0], arr1[1], img1.width * rand1, img1.height * rand1);
+            console.log(cnt, tiles.length);
+            if(cnt == tiles.length) {
+                var imageURL = $("#canvas")[0].toDataURL();
+                console.log(imageURL);
+
+                $('#seg_dim').dimmer('show', function(onShow){
+                    $.ajax({
+                        url: 'python/mixed',
+                        method: 'post',
+                        data: imageURL,
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            $('#seg_dim').dimmer('hide');
+                            console.log(res);
+                            var soundURL=`unitedImg/hificode.wav`;
+                            $("#player").attr("src",soundURL);
+                        }
+                    });
+                });
+            }
         }
     });
-
-});
+}
 
 function position(index, w, h, rand){
     let arr = [];
