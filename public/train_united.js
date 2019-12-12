@@ -1,5 +1,12 @@
 $(function () {
-    python();
+    $('.ui.inverted.menu a.item').on('click', function() { 
+        $(this)
+          .addClass('active')
+          .siblings()
+          .removeClass('active'); 
+      })
+      $("#train").attr("href","/united");
+      python();
 });
 
 
