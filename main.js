@@ -9,6 +9,7 @@ var sizeRouter = require('./routes/size');
 var userRouter = require('./routes/user');
 var pythonRouter = require('./routes/python');
 var unitedRouter = require('./routes/united');
+var cameraRouter = require('./routes/camera');
 
 var session = require('express-session');
 
@@ -30,7 +31,7 @@ app.use('/user',userRouter);
 app.use('/size', sizeRouter);
 app.use('/python', pythonRouter);
 app.use('/united', unitedRouter);
-
+app.use('/camera',cameraRouter);
 
 
 
@@ -62,7 +63,7 @@ app.get('/', function(request, response) {   // get : 라우팅 , path마다 적
     <a href="/size" class="item">크기</a>
     <a href="/user" class="item">사용자파일</a>
     <a href="/united" class="item">통합</a>
-    <a class="item">카메라</a>
+    <a href="/camera" class="item">카메라</a>
     `
 
     var html = template.HTML(

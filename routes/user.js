@@ -129,7 +129,7 @@ router.get('/', function(req, res) {   // get : 라우팅 , path마다 적당한
       <a href="/size" class="item">크기</a>
       <a href="/user" class="active item">사용자파일</a>
       <a href="/united" class="item">통합</a>
-      <a class="item">카메라</a>
+      <a href="/camera" class="item">카메라</a>
       `
       var figureData=`<div class="ui centered container" id="dropzone">`
 

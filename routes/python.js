@@ -6,6 +6,8 @@ var fs = require('fs');
 const sync = require('child_process').spawnSync;
 const { spawn } = require('child_process');
 var sys = require('sys');
+var NodeWebcam = require( "node-webcam" );
+
 //const execSync = require('child_process').execSync;
 /*
 function pythonExec(ar) {
@@ -21,6 +23,27 @@ function pythonExec(ar) {
   });
 }
 */
+
+router.post('/webcam',function(req,res){
+  console.log("webcam py");
+  const func_exec = spawn('python', ['hificode_image.py','web.png'],
+      {encoding:'utf8', cwd:__dirname + '\\..\\public\\'});
+
+      func_exec.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+      });
+
+      func_exec.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+      });
+
+      func_exec.on('exit', (code) => {
+        console.log(`child process exited with code ${code}`);
+        res.send("python exec is done");
+      });
+});
+
+
 
 router.post('/mixed',function(req,res){
 

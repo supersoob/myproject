@@ -55,7 +55,7 @@ function python(){
                         success: function(res) {
                             $('#seg_dim').dimmer('hide');
                             console.log(res);
-                            var soundURL=`unitedImg/hificode.wav`;
+                            var soundURL='unitedImg/hificode.wav?t=' + new Date().getTime();
                             $("#player").attr("src",soundURL);
                         }
                     });
