@@ -8,21 +8,6 @@ const { spawn } = require('child_process');
 var sys = require('sys');
 var NodeWebcam = require( "node-webcam" );
 
-//const execSync = require('child_process').execSync;
-/*
-function pythonExec(ar) {
-  return new Promise(function(resolve, reject) {
-    resolve(exec(`python hificode_image.py ${ar}`,{cwd:'C:/Users/lsbhy/myproject/public/uploads/image/'}
-     ,(error, stdout, stderr) => {
-      return stdout;
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-    }));
-  });
-}
-*/
 
 router.post('/webcam',function(req,res){
   console.log("webcam py");
@@ -48,13 +33,23 @@ router.post('/webcam',function(req,res){
 router.post('/mixed',function(req,res){
 
   var img = JSON.stringify(req.body);
-  //console.log(img);
   var data=img.slice(img.indexOf(',')+1).replace(/\s/g,'+');
   var buf = Buffer.from(data, 'base64'); 
   fs.writeFileSync(__dirname+'\\..\\public\\unitedImg\\image.png', buf);
-  var func_exec = sync('python', ['hificode_image.py', "image.png"],
+  var func_exec = spawn('python', ['hificode_image.py', "image.png"],
             {encoding:'utf8', cwd:__dirname+ "\\..\\public\\unitedImg\\"});
-  res.send("python exec is done");
+            func_exec.stdout.on('data', (data) => {
+              console.log(`stdout: ${data}`);
+            });
+      
+            func_exec.stderr.on('data', (data) => {
+              console.error(`stderr: ${data}`);
+            });
+      
+            func_exec.on('exit', (code) => {
+              console.log(`child process exited with code ${code}`);
+              res.send("python exec is done");
+            });
   
 });
 
@@ -87,13 +82,10 @@ router.post('/',function(req,res){
           console.log(rows);
           console.log(sqlquery);
           if(rows[0].sound==0){
-              //var func_exec = sync('python', ['hificode_image.py', ar],
-              //{encoding:'utf8', cwd:'C:/Users/lsbhy/myproject/public/uploads/image/'});
 
               const func_exec = spawn('python', ['hificode_image.py', ar],
-              {encoding:'utf8', cwd:'C:/Users/lsbhy/myproject/public/uploads/image/'});
+              {encoding:'utf8', cwd:__dirname+ "\\..\\public\\uploads\\image\\"});
 
-              
               func_exec.stdout.on('data', (data) => {
                 console.log(`stdout: ${data}`);
               });
