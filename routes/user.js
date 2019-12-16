@@ -28,7 +28,7 @@ router.post('/upload',upload.array("file"),function(req,res){
   post.forEach(function(element){
       var currfile = element.originalname;
 
-      var sqlquery = 'insert into ' + req.session.userId + ' values("'+ currfile + '"' + ', 0)';
+      var sqlquery = 'insert into ' + req.session.userId + ' values(\"'+ currfile + '\"' + ', 0)';
       mysqlDB.query(sqlquery, function (err, rows, fields) {});
   });
 
@@ -76,11 +76,15 @@ router.post('/test', function(req,res){
 
   if(req.session.userId){
   var sqlquery = 'select filename from ' + req.session.userId + ' where sound=1';
-  mysqlDB.query(sqlquery, function (err, rows, fields) {
+  mysqlDB.query(sqlquery, function (err, rows, fields) { 
+      console.log(rows);
+      console.log(rows.length);
+      if(rows.length < 4 || err) return 0;
 
       var imageData = ``
       var len = rows.length;
       var rand = template.random(len);
+
       console.log(rand);
   
       for(var i=1;i<=4;i++){
@@ -115,6 +119,7 @@ router.post('/test', function(req,res){
     
     });
   }
+  res.send("-1");
 });
 
 router.get('/', function(req, res) {   // get : 라우팅 , path마다 적당한 응답 
@@ -139,7 +144,7 @@ router.get('/', function(req, res) {   // get : 라우팅 , path마다 적당한
           mysqlDB.query('select * from ' + userId ,function(err,rows,fields){
 
             if(rows.length==0){           
-              figureData +=`<div class="box">Drag & Drop Files Here</div>`;
+              figureData +=`<div class="box">Drag & Drop Files Here<br>( 영문이나 숫자로 작성된 파일명만 가능합니다 / PNG, JPEG, JPG FILE ONLY )</div>`;
             }
             else{
               figureData += `<div class="ui middle aligned selection list">`;
@@ -153,7 +158,6 @@ router.get('/', function(req, res) {   // get : 라우팅 , path마다 적당한
                 <i class="dropdown icon"></i>
                 <div class="menu" style="right: 0;left: auto;">
                 <div class="item">Delete</div>
-                <div class="item">Rename</div>
                  </div>
                 </div>
                 </div>

@@ -11,7 +11,11 @@ $(function() {
             url : "user/test",
             data : {filedir : imageURL},
             success: function(res){        
-                console.log(res.ans);
+                console.log(res);
+
+                if(res=="-1") {alert("오류 발생 (테스트 케이스 부족)");history.go(-1);}
+
+                else{
                 answer = res.ans;
                 ansFilename = res.filename;
                 imgList = res.imgList;
@@ -26,9 +30,11 @@ $(function() {
                 });
 
                 $("#dropzone")[0].innerHTML=`<div class="box">TEST 진행중</div>`;
+                $("#show_answer")[0].innerHTML = `정답을 골라주세요.`;
                 $("#show_score")[0].innerHTML=`
                 <input type="hidden" id="score" name="score" value="0">
                 <h3 class="ui huge header" id="update_score">0 / 100</h3>`;
+                }
             },
             error: function(xhr, status, error) {
                 alert(error);

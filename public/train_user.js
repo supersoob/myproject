@@ -78,6 +78,8 @@ $(function () {
         }
     });
 
+    $("#show_answer")[0].innerHTML = `파일을 골라주세요.`;
+
 });
 
 function joinform(){

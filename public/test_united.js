@@ -65,7 +65,7 @@ function matchAnswer(case_num){
     }
 
     //정답확인에 정답이미지 넣기
-    var ansSrc = imageURL + 'image.png';
+    var ansSrc = imageURL + 'image.png?t=' + new Date().getTime();
     $("#shape_list")[0].innerHTML = `
     <div class="centered two column">
     <img class ="ui middle aligned centered medium image" src ="${ansSrc}"

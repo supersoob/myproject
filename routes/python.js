@@ -31,7 +31,6 @@ router.post('/webcam',function(req,res){
 
 
 router.post('/mixed',function(req,res){
-
   var img = JSON.stringify(req.body);
   var data=img.slice(img.indexOf(',')+1).replace(/\s/g,'+');
   var buf = Buffer.from(data, 'base64'); 
@@ -50,7 +49,6 @@ router.post('/mixed',function(req,res){
               console.log(`child process exited with code ${code}`);
               res.send("python exec is done");
             });
-  
 });
 
 router.post('/check',function(req,res){
